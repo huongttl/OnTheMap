@@ -24,4 +24,10 @@ class LoginViewController: UIViewController {
         navigationController?.pushViewController(tabVC, animated: true
         )
     }
+    @IBAction func signUpButtonTapped(_ sender: Any) {
+        guard let url = URL(string: "https://www.udacity.com/") else {
+            return
+        }
+        UIApplication.shared.open(url)
+    }
 }

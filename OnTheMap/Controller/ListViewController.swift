@@ -19,13 +19,13 @@ class ListViewController: UIViewController {
         print("Table View")
         // Do any additional setup after loading the view.
 //        self.navig
-        let data = Client.getStudentLocations() {
+        _ = Client.getStudentLocations() {
             (studentLocations, error) in
             DataModel.studentLocations = studentLocations
             print("count \(studentLocations.count)")
             self.tableView.reloadData()
         }
-        print(data)
+//        print(data)
     }
 
     override func viewWillAppear(_ animated: Bool) {
