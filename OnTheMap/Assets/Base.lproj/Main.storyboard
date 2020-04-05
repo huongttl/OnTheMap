@@ -182,7 +182,7 @@
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="300-sm-CUV">
                                         <rect key="frame" x="0.0" y="112" width="314" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" textContentType="password"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z0h-X4-hM8">
                                         <rect key="frame" x="0.0" y="154" width="314" height="30"/>
@@ -194,7 +194,7 @@
                                             <action selector="loginButtonTapped:" destination="R23-lq-iFS" eventType="touchUpInside" id="6OY-iv-kKJ"/>
                                         </connections>
                                     </button>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="e0F-WJ-Wzc">
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="e0F-WJ-Wzc">
                                         <rect key="frame" x="0.0" y="192" width="314" height="20"/>
                                     </activityIndicatorView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="X2b-GF-K6h">
@@ -228,6 +228,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="hsH-SP-b8F"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="e0F-WJ-Wzc" id="EjV-Gn-hmc"/>
+                        <outlet property="emailTextField" destination="fof-nn-EdQ" id="oeO-Nn-5Da"/>
+                        <outlet property="loginButton" destination="z0h-X4-hM8" id="njz-CS-ZFo"/>
+                        <outlet property="passwordTextField" destination="300-sm-CUV" id="ZVU-uf-sD1"/>
+                        <outlet property="signupButton" destination="vMF-vb-IoW" id="zh7-W6-gUZ"/>
                         <segue destination="49e-Tb-3d3" kind="show" id="IYi-dW-KN8"/>
                     </connections>
                 </viewController>
