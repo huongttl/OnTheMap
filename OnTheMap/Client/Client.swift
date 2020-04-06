@@ -24,6 +24,7 @@ class Client {
         static let limit = 100
         
         case getStudentLocations
+        case getCurrentStudentLocation
 //        case getRequestToken
         case login
 //        case createSessionId
@@ -37,11 +38,14 @@ class Client {
         
         var stringValue: String {
             switch self {
-            case .getStudentLocations: return Endpoints.base + "/StudentLocation?limit=\(Endpoints.limit)?order=-updatedAt"// + Endpoints.apiKeyParam + "&session_id=\(Auth.sessionId)"
+            case .getStudentLocations:
+                return Endpoints.base + "/StudentLocation?limit=\(Endpoints.limit)?order=-updatedAt"// + Endpoints.apiKeyParam + "&session_id=\(Auth.sessionId)"
 //            case .getRequestToken:
 //                return Endpoints.base + "/authentication/token/new" + Endpoints.apiKeyParam
             case .login:
                 return Endpoints.base + "/session"// + Endpoints.apiKeyParam
+            case .getCurrentStudentLocation:
+                return Endpoints.base + "/StudentLocation?uniqueKey=\(Auth.key)"
 //            case .createSessionId:
 //                return Endpoints.base + "/authentication/session/new" + Endpoints.apiKeyParam
 //            case .webAuth:
@@ -134,6 +138,45 @@ class Client {
         task.resume()
     }
     
+    class func addLocation(username: String, password: String, completion: @escaping (Bool, Error?) -> Void){
+        var request = URLRequest(url: Endpoints.login.url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        // encoding a JSON body from a string, can also use a Codable struct
+//        let boday = LoginRequest(udacity: Udacity(username: username, password: password))
+        request.httpBody = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}".data(using: .utf8)
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) {
+            data, response, error in
+          if error != nil { // Handle error…
+//            print(error)
+              return
+          }
+            guard let data = data else {
+                print("there is no data")
+                return
+            }
+          let range = 5..<data.count
+          let newData = data.subdata(in: range) /* subset response data! */
+          print(String(data: newData, encoding: .utf8)!)
+            let decoder = JSONDecoder()
+        do {
+           let dataDecoded = try decoder.decode(Session.self, from: newData)
+            Auth.sessionId = dataDecoded.session.id
+            Auth.key = dataDecoded.account.key
+           completion (true, nil)
+           print("The login is done successfuly!")
+        } catch {
+            print(error.localizedDescription)
+            }
+        }
+        task.resume()
+    }
+    
+    
+    
+    
     class func getStudentLocations(completion: @escaping ([StudentLocation], Error?) -> Void) {
         taskForGETRequest(url: Endpoints.getStudentLocations.url, response: StudentLocations.self) {
             (response, error) in
@@ -146,6 +189,19 @@ class Client {
             }
         }
     }
+    
+        class func getCurrentStudentLocation(completion: @escaping ([StudentLocation], Error?) -> Void) {
+            taskForGETRequest(url: Endpoints.getCurrentStudentLocation.url, response: StudentLocations.self) {
+                (response, error) in
+                if let response = response {
+    //                print(response)
+                    completion(response.results, nil)
+                } else {
+                    completion([], error)
+    //                print(error)
+                }
+            }
+        }
     
 //    class func login(username: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
 //        taskForPOSTRequest(url: Endpoints.login.url, responseType: Session.self, body: LoginRequest(udacity: Udacity(username: username, password: password))) {
