@@ -25,6 +25,7 @@
 		3483EF8824271B8A00863D22 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3483EF8724271B8A00863D22 /* Assets.xcassets */; };
 		3483EF8B24271B8A00863D22 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3483EF8924271B8A00863D22 /* LaunchScreen.storyboard */; };
 		3483EF9324271EEC00863D22 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3483EF9224271EEC00863D22 /* LoginViewController.swift */; };
+		34AA12B52451FDC8006F6634 /* AddStudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AA12B42451FDC8006F6634 /* AddStudentLocation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		3483EF8A24271B8A00863D22 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3483EF8C24271B8A00863D22 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3483EF9224271EEC00863D22 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		34AA12B42451FDC8006F6634 /* AddStudentLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddStudentLocation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				3422C12824298B0000535C47 /* StudentLocation.swift */,
 				3418AD71242EE4D1002FF29B /* StudentLocations.swift */,
 				341C282C2430C725007EF4BA /* Session.swift */,
+				34AA12B42451FDC8006F6634 /* AddStudentLocation.swift */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 				3483EF8124271B8400863D22 /* MapViewController.swift in Sources */,
 				34515A8B2427876C00A08F8B /* AddLocationViewController.swift in Sources */,
 				341C282B2430BFB1007EF4BA /* StudentAnnotation.swift in Sources */,
+				34AA12B52451FDC8006F6634 /* AddStudentLocation.swift in Sources */,
 				3483EF7D24271B8400863D22 /* AppDelegate.swift in Sources */,
 				3483EF9324271EEC00863D22 /* LoginViewController.swift in Sources */,
 				3483EF7F24271B8400863D22 /* SceneDelegate.swift in Sources */,

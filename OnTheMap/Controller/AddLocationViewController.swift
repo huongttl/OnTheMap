@@ -42,9 +42,41 @@ class AddLocationViewController: UIViewController {
     @IBAction func submitButtonTapped(_ sender: Any) {
         print("location showed")
         print(location)
-        let nextVC = storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
-        navigationController?.pushViewController(nextVC, animated: true)
+        print("locationName: \(locationName); url: \(mediaURL)")
+        Client.addStudentLocation(firstName: "Huong", lastName: "Tran", mapString: locationName, mediaURL: mediaURL, latitude: location.latitude, longtitude: location.longitude, completion: handleAddStudentLocationResponse(success:error:))
+        }
         
+//        let nextVC = storyboard?.instantiateViewController(identifier: "MapViewController") as! MapViewController
+//        navigationController?.pushViewController(nextVC, animated: true)
+        
+//    }
+    
+    func handleAddStudentLocationResponse(success: Bool, error: Error?) {
+//        print(Client.Auth.sessionId)
+//        print("Checking")
+        if success {
+            print("Post OK")
+//            TMDBClient.postSession(completion: handleSessionResponse(success:error:))
+            DispatchQueue.main.async {
+                let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
+                self.navigationController?.pushViewController(nextVC, animated: true)
+//                print("Login OK")
+            }
+            
+        } else {
+            print("falling")
+            DispatchQueue.main.async {
+                self.showAddStudentLocationFailure(message: error?.localizedDescription ?? "")
+            }
+            
+        }
+    }
+    
+    func showAddStudentLocationFailure(message: String) {
+        let alertVC = UIAlertController(title: "Post Student Location failed.", message: message, preferredStyle: .alert)
+        print(message)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        show(alertVC, sender: nil)
     }
     
     func viewAnnotation() {
