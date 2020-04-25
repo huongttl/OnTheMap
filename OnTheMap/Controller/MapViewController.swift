@@ -34,13 +34,11 @@ class MapViewController: UIViewController {
         for i in 0..<DataModel.studentLocations.count {
             let annotation = StudentAnnotation(title: "\(DataModel.studentLocations[i].firstName) \(DataModel.studentLocations[i].lastName)", mediaURL: DataModel.studentLocations[i].mediaURL, coordinate: CLLocationCoordinate2D(latitude: DataModel.studentLocations[i].latitude, longitude: DataModel.studentLocations[i].longitude))
                     annotations.append(annotation)
-//                            print(annotation.coordinate)
                 }
         print("view map count \(annotations.count)")
         mapView.addAnnotations(annotations)
     }
 }
-
 
 extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {

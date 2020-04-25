@@ -15,25 +15,14 @@ class TabBarViewController: UITabBarController {
     @IBOutlet weak var addLocationButton: UIBarButtonItem!
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        sel
-        // Do any additional setup after loading the view.
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     @IBAction func logOutButtonTapped(_ sender: Any) {
-//        let nextVC = storyboard?.instantiateViewController(identifier: "LoginViewController") as! LoginViewController
-//        navigationController?.pushViewController(nextVC, animated: true)
-        self.navigationController?.popToRootViewController(animated: true)
+        Client.logout{
+            DispatchQueue.main.async {
+                self.navigationController?.popToRootViewController(animated: true)
+            }
+        }
     }
     
     @IBAction func reloadListButtonTapped(_ sender: Any) {

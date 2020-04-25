@@ -12,7 +12,6 @@ class Client {
     static let apiKey = ""
     
     struct Auth {
-//        static var accountId = 0
         static var sessionId = ""
         static var key = ""
     }
@@ -21,52 +20,25 @@ class Client {
         static let base = "https://onthemap-api.udacity.com/v1"
         static let apiKeyParam = "?api_key=\(Client.apiKey)"
         static let imageBase = "https://image.tmdb.org/t/p/w500/"
-//        static let limit = 100
         
         case getStudentLocations
         case getCurrentStudentLocation
-//        case getRequestToken
         case login
+        case logout
         case addStudentLocation
-//        case createSessionId
-//        case webAuth
-//        case logout
-//        case getFavorites
-//        case search(String)
-//        case markWatchlist
-//        case markFavorite
-//        case posterImageURL(String)
         
         var stringValue: String {
             switch self {
             case .getStudentLocations:
-//                return Endpoints.base + "/StudentLocation?order=-updatedAt?limit=\(Endpoints.limit)"
-//                 + Endpoints.apiKeyParam + "&session_id=\(Auth.sessionId)"
-                return Endpoints.base + "/StudentLocation?order=-updatedAt"// + Endpoints.apiKeyParam + "&session_id=\(Auth.sessionId)"
-//            case .getRequestToken:
-//                return Endpoints.base + "/authentication/token/new" + Endpoints.apiKeyParam
+                return Endpoints.base + "/StudentLocation?order=-updatedAt"
             case .login:
-                return Endpoints.base + "/session"// + Endpoints.apiKeyParam
+                return Endpoints.base + "/session"
             case .getCurrentStudentLocation:
                 return Endpoints.base + "/StudentLocation?uniqueKey=\(Auth.key)"
             case .addStudentLocation:
                 return Endpoints.base + "/StudentLocation"
-//            case .createSessionId:
-//                return Endpoints.base + "/authentication/session/new" + Endpoints.apiKeyParam
-//            case .webAuth:
-//                return "https://www.themoviedb.org/authenticate/" + Auth.requestToken + "?redirect_to=themoviemanager:authenticate"
-//            case .logout:
-//                return Endpoints.base + "/authentication/session" + Endpoints.apiKeyParam
-//            case .getFavorites:
-//                return Endpoints.base + "/account/\(Auth.accountId)/favorite/movies" + Endpoints.apiKeyParam + "&session_id=\(Auth.sessionId)"
-//            case .search(let query):
-//                return Endpoints.base + "/search/movie" + Endpoints.apiKeyParam + "&query=\(query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
-//            case .markWatchlist:
-//                return Endpoints.base + "/account/\(Auth.accountId)/watchlist" + Endpoints.apiKeyParam + "&session_id=\(Auth.sessionId)"
-//            case .markFavorite:
-//                return Endpoints.base + "/account/\(Auth.accountId)/favorite" + Endpoints.apiKeyParam + "&session_id=\(Auth.sessionId)"
-//            case .posterImageURL(let posterPath):
-//                return Endpoints.imageBase + posterPath + Endpoints.apiKeyParam
+            case .logout:
+                return Endpoints.base + "/session"
             }
         }
         
@@ -103,7 +75,6 @@ class Client {
             }
         }
         task.resume()
-//        task.cancel()
         return task
     }
 
@@ -112,8 +83,6 @@ class Client {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        // encoding a JSON body from a string, can also use a Codable struct
-//        let boday = LoginRequest(udacity: Udacity(username: username, password: password))
         request.httpBody = "{\"udacity\": {\"username\": \"\(username)\", \"password\": \"\(password)\"}}".data(using: .utf8)
         let session = URLSession.shared
         let task = session.dataTask(with: request) {
@@ -127,7 +96,7 @@ class Client {
                 return
             }
           let range = 5..<data.count
-          let newData = data.subdata(in: range) /* subset response data! */
+          let newData = data.subdata(in: range)
           print(String(data: newData, encoding: .utf8)!)
             let decoder = JSONDecoder()
         do {
@@ -164,9 +133,7 @@ class Client {
           print(String(data: newData, encoding: .utf8)!)
             let decoder = JSONDecoder()
         do {
-           let dataDecoded = try decoder.decode(AddStudentLocation.self, from: data)
-//            Auth.sessionId = dataDecoded.session.id
-//            Auth.key = dataDecoded.account.key
+           let _ = try decoder.decode(AddStudentLocation.self, from: data)
            completion (true, nil)
            print("Student location posted!")
         } catch {
@@ -176,15 +143,35 @@ class Client {
         }
         task.resume()
     }
-    
-    
-    
+   
+    class func logout(completion: @escaping () -> Void){
+        var request = URLRequest(url: Endpoints.logout.url)
+        request.httpMethod = "DELETE"
+        var xsrfCookie: HTTPCookie? = nil
+        let sharedCookieStorage = HTTPCookieStorage.shared
+        for cookie in sharedCookieStorage.cookies! {
+          if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
+        }
+        if let xsrfCookie = xsrfCookie {
+          request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        let session = URLSession.shared
+        let task = session.dataTask(with: request) { data, response, error in
+          if error != nil { // Handle error…
+              return
+          }
+          let range = 5..<data!.count
+          let newData = data?.subdata(in: range) /* subset response data! */
+          print(String(data: newData!, encoding: .utf8)!)
+        completion()
+        }
+        task.resume()
+    }
     
     class func getStudentLocations(completion: @escaping ([StudentLocation], Error?) -> Void) {
         taskForGETRequest(url: Endpoints.getStudentLocations.url, response: StudentLocations.self) {
             (response, error) in
             if let response = response {
-//                print(response)
                 completion(response.results, nil)
             } else {
                 completion([], error)
@@ -197,26 +184,10 @@ class Client {
             taskForGETRequest(url: Endpoints.getCurrentStudentLocation.url, response: StudentLocations.self) {
                 (response, error) in
                 if let response = response {
-    //                print(response)
                     completion(response.results, nil)
                 } else {
                     completion([], error)
-    //                print(error)
                 }
             }
         }
-    
-//    class func login(username: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
-//        taskForPOSTRequest(url: Endpoints.login.url, responseType: Session.self, body: LoginRequest(udacity: Udacity(username: username, password: password))) {
-//            (response, error) in
-//            if let response = response {
-////                Auth.requestToken = response.requestToken
-//                Auth.key = response.account.key
-//                Auth.sessionId = response.session.id
-//                completion(true, nil)
-//            } else {
-//                completion(false, error)
-//            }
-//        }
-//    }
 }

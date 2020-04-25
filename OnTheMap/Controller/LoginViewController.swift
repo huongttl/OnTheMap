@@ -17,9 +17,6 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var signupButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
-//        activityIndicator.isHidden =
-        // Do any additional setup after loading the view.
-        
     }
     
 
@@ -42,7 +39,6 @@ class LoginViewController: UIViewController {
         print("Checking")
         if success {
             print("Login OK")
-//            TMDBClient.postSession(completion: handleSessionResponse(success:error:))
             DispatchQueue.main.async {
                 let tabVC = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
                 self.navigationController?.pushViewController(tabVC, animated: true
@@ -76,6 +72,5 @@ class LoginViewController: UIViewController {
         passwordTextField.isEnabled = !isLoggingIn
         loginButton.isEnabled = !isLoggingIn
         signupButton.isEnabled = !isLoggingIn
-//        loginViaWebsiteButton.isEnabled = !isLoggingIn
     }
 }

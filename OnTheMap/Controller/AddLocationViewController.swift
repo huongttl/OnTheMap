@@ -18,26 +18,12 @@ class AddLocationViewController: UIViewController {
     var mediaURL = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.navigationItem.title = "Add Location"
-//        self.navigationItem.backBarButtonItem?.title = "Cancel"
-        // Do any additional setup after loading the view.
         addLocationMapView.delegate = self
         let currentLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
         addLocationMapView.centerToLocation(currentLocation)
         self.reloadInputViews()
         self.viewAnnotation()
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     @IBAction func submitButtonTapped(_ sender: Any) {
         print("location showed")
@@ -45,22 +31,13 @@ class AddLocationViewController: UIViewController {
         print("locationName: \(locationName); url: \(mediaURL)")
         Client.addStudentLocation(firstName: "Huong", lastName: "Tran", mapString: locationName, mediaURL: mediaURL, latitude: location.latitude, longtitude: location.longitude, completion: handleAddStudentLocationResponse(success:error:))
         }
-        
-//        let nextVC = storyboard?.instantiateViewController(identifier: "MapViewController") as! MapViewController
-//        navigationController?.pushViewController(nextVC, animated: true)
-        
-//    }
-    
+
     func handleAddStudentLocationResponse(success: Bool, error: Error?) {
-//        print(Client.Auth.sessionId)
-//        print("Checking")
         if success {
             print("Post OK")
-//            TMDBClient.postSession(completion: handleSessionResponse(success:error:))
             DispatchQueue.main.async {
                 let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
                 self.navigationController?.pushViewController(nextVC, animated: true)
-//                print("Login OK")
             }
             
         } else {
@@ -68,7 +45,6 @@ class AddLocationViewController: UIViewController {
             DispatchQueue.main.async {
                 self.showAddStudentLocationFailure(message: error?.localizedDescription ?? "")
             }
-            
         }
     }
     
@@ -109,18 +85,5 @@ extension AddLocationViewController: MKMapViewDelegate {
     }
     return view
   }
-
-//    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        guard let annotation = view.annotation else {
-//            return
-//        }
-//        guard let subtitle = annotation.subtitle else {
-//            return
-//        }
-//        guard let url = URL(string: subtitle ?? "") else {
-//            return
-//        }
-//        UIApplication.shared.open(url)
-//    }
 
 }

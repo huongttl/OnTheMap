@@ -21,27 +21,9 @@ class FindLocationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "Add Location"
-//        self.navigationItem.leftBarButtonItem?.title = "Cancel"
-        // Do any additional setup after loading the view.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
     @IBAction func findLocationButtonTapped(_ sender: Any) {
-        
-
-//        CLGeocoder().geocodeAddressString(locationText.text) {
-//            locationGeo, error inputView
-//        }
         if getGeo() == true && getMediaURL() == true {
             let nextVC = storyboard?.instantiateViewController(identifier: "AddLocationViewController") as! AddLocationViewController
             nextVC.location = currentStudentLocation
