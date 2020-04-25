@@ -89,6 +89,7 @@ class Client {
             data, response, error in
           if error != nil { // Handle error…
 //            print(error)
+            completion(false,error)
               return
           }
             guard let data = data else {
@@ -106,7 +107,8 @@ class Client {
            completion (true, nil)
            print("The login is done successfuly!")
         } catch {
-            print(error.localizedDescription)
+            completion(false, error)
+//            print(error.localizedDescription)
             }
         }
         task.resume()
