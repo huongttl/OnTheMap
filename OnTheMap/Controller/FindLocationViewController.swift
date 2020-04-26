@@ -14,6 +14,7 @@ class FindLocationViewController: UIViewController {
     @IBOutlet weak var findLocationButton: UIButton!
     @IBOutlet weak var locationText: UITextField!
     @IBOutlet weak var linkText: UITextField!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var currentStudentLocation = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     var mediaURL = ""
@@ -24,14 +25,6 @@ class FindLocationViewController: UIViewController {
     }
 
     @IBAction func findLocationButtonTapped(_ sender: Any) {
-        /*
-        if getGeo() == true && getMediaURL() == true {
-            let nextVC = storyboard?.instantiateViewController(identifier: "AddLocationViewController") as! AddLocationViewController
-            nextVC.location = currentStudentLocation
-            nextVC.mediaURL = mediaURL
-            nextVC.locationName = locationText.text ?? ""
-            navigationController?.pushViewController(nextVC, animated: true)
-        }*/
         getMediaURL()
         getGeo()
         let nextVC = storyboard?.instantiateViewController(identifier: "AddLocationViewController") as! AddLocationViewController
@@ -53,6 +46,7 @@ class FindLocationViewController: UIViewController {
     }
     
     func getGeo() {
+        setIndicator(true)
         guard let text = locationText.text else {
             showEmptyFailure()
             return
@@ -67,7 +61,7 @@ class FindLocationViewController: UIViewController {
                 print("error location")
                 isGetGeoDone = false
                 self.showFailure(message: error?.localizedDescription ?? "")
-                print(error?.localizedDescription)
+//                print(error?.localizedDescription)
                 return
             } else {
                 if let lat = geo?.first?.location?.coordinate.latitude {
@@ -83,6 +77,7 @@ class FindLocationViewController: UIViewController {
         }
         print("isGetGeoDone: \(isGetGeoDone)")
 //        return isGetGeoDone
+        setIndicator(false)
     }
     
     func getMediaURL(){
@@ -106,9 +101,21 @@ class FindLocationViewController: UIViewController {
     }
     
     func showFailure(message: String) {
-            let alertVC = UIAlertController(title: "Get location Failed", message: message, preferredStyle: .alert)
-            print(message)
-            alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alertVC, animated: true, completion: nil)
+        let alertVC = UIAlertController(title: "Get location Failed", message: message, preferredStyle: .alert)
+        print(message)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertVC, animated: true, completion: nil)
+    }
+
+    func setIndicator(_ isProgressing: Bool) {
+        if isProgressing {
+            activityIndicator.startAnimating()
+        } else {
+            activityIndicator.stopAnimating()
         }
+        linkText.isEnabled = !isProgressing
+        findLocationButton.isEnabled = !isProgressing
+        locationText.isEnabled = !isProgressing
+    }
+
 }

@@ -30,7 +30,7 @@ class Client {
         var stringValue: String {
             switch self {
             case .getStudentLocations:
-                return Endpoints.base + "/StudentLocation?order=-updatedAt"
+                return Endpoints.base + "/StudentLocation?order=-updatedAt&limit=100"
             case .login:
                 return Endpoints.base + "/session"
             case .getCurrentStudentLocation:

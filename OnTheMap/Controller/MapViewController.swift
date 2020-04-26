@@ -17,15 +17,20 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         _ = Client.getStudentLocations() {
             (studentLocations, error) in
-            DataModel.studentLocations = studentLocations
-            print("count student \(studentLocations.count)")
-            self.reloadInputViews()
-            self.viewAnnotation()
+            if error != nil {
+                self.showLoadFailure(message: error?.localizedDescription ?? "")
+            } else {
+                DataModel.studentLocations = studentLocations
+                print("count student \(studentLocations.count)")
+                self.reloadInputViews()
+                self.viewAnnotation()
+            }
+            
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
         mapView.reloadInputViews()
     }
 
@@ -36,6 +41,13 @@ class MapViewController: UIViewController {
                     annotations.append(annotation)
                 }
         mapView.addAnnotations(annotations)
+    }
+    
+    func showLoadFailure(message: String) {
+        let alertVC = UIAlertController(title: "Load Student Location Failed", message: message, preferredStyle: .alert)
+        print(message)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertVC, animated: true, completion: nil)
     }
 }
 
