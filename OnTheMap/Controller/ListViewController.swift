@@ -58,9 +58,11 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedIndex = indexPath.row
+        print(selectedIndex)
         guard let url = URL(string: DataModel.studentLocations[indexPath.row].mediaURL) else {
             return
         }
+        print(url)
         UIApplication.shared.open(url)
     }
 }

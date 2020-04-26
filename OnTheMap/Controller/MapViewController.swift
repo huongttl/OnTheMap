@@ -26,7 +26,7 @@ class MapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        self.mapView.reloadInputViews()
+        mapView.reloadInputViews()
     }
 
     func viewAnnotation() {

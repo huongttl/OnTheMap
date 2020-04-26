@@ -18,7 +18,7 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+    let signUpURL = "https://auth.udacity.com/sign-up"
 
 
     @IBAction func loginButtonTapped(_ sender: Any) {
@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
         print("Logging....")
     }
     @IBAction func signUpButtonTapped(_ sender: Any) {
-        guard let url = URL(string: "https://www.udacity.com/") else {
+        guard let url = URL(string: signUpURL) else {
             return
         }
         UIApplication.shared.open(url)

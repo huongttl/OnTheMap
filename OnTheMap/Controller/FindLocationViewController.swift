@@ -24,13 +24,21 @@ class FindLocationViewController: UIViewController {
     }
 
     @IBAction func findLocationButtonTapped(_ sender: Any) {
+        /*
         if getGeo() == true && getMediaURL() == true {
             let nextVC = storyboard?.instantiateViewController(identifier: "AddLocationViewController") as! AddLocationViewController
             nextVC.location = currentStudentLocation
             nextVC.mediaURL = mediaURL
             nextVC.locationName = locationText.text ?? ""
             navigationController?.pushViewController(nextVC, animated: true)
-        }
+        }*/
+        getMediaURL()
+        getGeo()
+        let nextVC = storyboard?.instantiateViewController(identifier: "AddLocationViewController") as! AddLocationViewController
+        nextVC.location = currentStudentLocation
+        nextVC.mediaURL = mediaURL
+        nextVC.locationName = locationText.text ?? ""
+        navigationController?.pushViewController(nextVC, animated: true)
         
     }
     
@@ -44,21 +52,24 @@ class FindLocationViewController: UIViewController {
         }
     }
     
-    func getGeo() -> Bool {
+    func getGeo() {
         guard let text = locationText.text else {
             print("Location nil")
-            return false
+            showEmptyFailure()
+            return
         }
         if isStringEmpty(string: text) {
             print("Location empty")
-            return false
+            showEmptyFailure()
+//            return false
         }
-        var isGetGeoDone = true
+        var isGetGeoDone = false
         CLGeocoder().geocodeAddressString(text) {
             geo, error in
             if error != nil {
                 print("error location")
                 isGetGeoDone = false
+                self.showFailure(message: error?.localizedDescription ?? "")
                 print(error?.localizedDescription)
                 return
             } else {
@@ -73,19 +84,37 @@ class FindLocationViewController: UIViewController {
                 isGetGeoDone = true
             }
         }
-        return isGetGeoDone
+        print("isGetGeoDone: \(isGetGeoDone)")
+//        return isGetGeoDone
     }
     
-    func getMediaURL() -> Bool {
+    func getMediaURL(){
         guard let text = linkText.text else {
             print("Media Link nil")
-            return false
+            showEmptyFailure()
+            return //false
         }
         if isStringEmpty(string: text) {
             print("Media Link empty")
-            return false
+            showEmptyFailure()
+//            return false
         }
         mediaURL = text
-        return true
+//        return true
     }
+    
+    func showEmptyFailure() {
+        let alertVC = UIAlertController(title: "", message: "", preferredStyle: .alert)
+        alertVC.title = "Missing info"
+        alertVC.message = "Input the Location and Link"
+        alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertVC, animated: true, completion: nil)
+    }
+    
+    func showFailure(message: String) {
+            let alertVC = UIAlertController(title: "Get location Failed", message: message, preferredStyle: .alert)
+            print(message)
+            alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alertVC, animated: true, completion: nil)
+        }
 }
