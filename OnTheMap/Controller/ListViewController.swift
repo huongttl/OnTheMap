@@ -23,7 +23,6 @@ class ListViewController: UIViewController {
             print("count \(studentLocations.count)")
             self.tableView.reloadData()
         }
-//        print(data)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +61,6 @@ extension ListViewController: UITableViewDataSource, UITableViewDelegate {
         guard let url = URL(string: DataModel.studentLocations[indexPath.row].mediaURL) else {
             return
         }
-        print(url)
         UIApplication.shared.open(url)
     }
 }

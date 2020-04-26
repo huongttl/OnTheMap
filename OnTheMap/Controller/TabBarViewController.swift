@@ -27,6 +27,8 @@ class TabBarViewController: UITabBarController {
     
     @IBAction func reloadListButtonTapped(_ sender: Any) {
         self.view.reloadInputViews()
+//        tabBarController?.reloadInputViews()
+//        MapViewController.reloadInputViews()
     }
     @IBAction func addLocationButtonTapped(_ sender: Any) {
         let nextVC = storyboard?.instantiateViewController(identifier: "FindLocationViewController") as! FindLocationViewController

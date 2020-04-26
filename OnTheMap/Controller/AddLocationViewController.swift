@@ -26,22 +26,17 @@ class AddLocationViewController: UIViewController {
     }
 
     @IBAction func submitButtonTapped(_ sender: Any) {
-        print("location showed")
-        print(location)
-        print("locationName: \(locationName); url: \(mediaURL)")
         Client.addStudentLocation(firstName: "Huong", lastName: "Tran", mapString: locationName, mediaURL: mediaURL, latitude: location.latitude, longtitude: location.longitude, completion: handleAddStudentLocationResponse(success:error:))
         }
 
     func handleAddStudentLocationResponse(success: Bool, error: Error?) {
         if success {
-            print("Post OK")
             DispatchQueue.main.async {
                 let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "TabBarViewController") as! TabBarViewController
                 self.navigationController?.pushViewController(nextVC, animated: true)
             }
             
         } else {
-            print("falling")
             DispatchQueue.main.async {
                 self.showAddStudentLocationFailure(message: error?.localizedDescription ?? "")
             }
@@ -50,14 +45,12 @@ class AddLocationViewController: UIViewController {
     
     func showAddStudentLocationFailure(message: String) {
         let alertVC = UIAlertController(title: "Post Student Location failed.", message: message, preferredStyle: .alert)
-        print(message)
         alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         show(alertVC, sender: nil)
     }
     
     func viewAnnotation() {
         let annotation = StudentAnnotation(title: locationName, mediaURL: mediaURL, coordinate: location)
-        print("view map count \(annotation)")
         addLocationMapView.addAnnotation(annotation)
     }
 }

@@ -22,28 +22,24 @@ class LoginViewController: UIViewController {
 
 
     @IBAction func loginButtonTapped(_ sender: Any) {
-        print("Now Logging....")
-//        Client.login(username: emailTextField.text ?? "", password: passwordTextField.text ?? "", completion: handleLoginResponse(success:error:))
-//            print("Logging....")
- 
+        setLoggingIn(true)
         Client.login(username: emailTextField.text ?? "", password: passwordTextField.text ?? "") {
             success, error in
             if success {
-                print("Login OK")
                 DispatchQueue.main.async {
                     let tabVC = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
                     self.navigationController?.pushViewController(tabVC, animated: true
                      )
                     print("Login OK")
+                    self.setLoggingIn(false)
                 }
             } else {
-                print("falling")
                 DispatchQueue.main.async {
                     self.showLoginFailure(message: error?.localizedDescription ?? "")
+                    self.setLoggingIn(false)
                 }
             }
         }
-        print("Logging....")
     }
     @IBAction func signUpButtonTapped(_ sender: Any) {
         guard let url = URL(string: signUpURL) else {
@@ -51,26 +47,6 @@ class LoginViewController: UIViewController {
         }
         UIApplication.shared.open(url)
     }
-    
-//    func handleLoginResponse(success: Bool, error: Error?) {
-//        print(Client.Auth.sessionId)
-//        print("Checking")
-//        if success {
-//            print("Login OK")
-//            DispatchQueue.main.async {
-//                let tabVC = self.storyboard?.instantiateViewController(identifier: "TabBarViewController") as! TabBarViewController
-//                self.navigationController?.pushViewController(tabVC, animated: true
-//                 )
-//                print("Login OK")
-//            }
-//        } else {
-//            print("falling")
-//            DispatchQueue.main.async {
-//                self.showLoginFailure(message: error?.localizedDescription ?? "")
-//            }
-//
-//        }
-//    }
     
     func showLoginFailure(message: String) {
         let alertVC = UIAlertController(title: "Login Failed", message: message, preferredStyle: .alert)

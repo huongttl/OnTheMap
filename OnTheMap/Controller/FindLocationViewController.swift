@@ -54,14 +54,11 @@ class FindLocationViewController: UIViewController {
     
     func getGeo() {
         guard let text = locationText.text else {
-            print("Location nil")
             showEmptyFailure()
             return
         }
         if isStringEmpty(string: text) {
-            print("Location empty")
             showEmptyFailure()
-//            return false
         }
         var isGetGeoDone = false
         CLGeocoder().geocodeAddressString(text) {
@@ -90,17 +87,14 @@ class FindLocationViewController: UIViewController {
     
     func getMediaURL(){
         guard let text = linkText.text else {
-            print("Media Link nil")
             showEmptyFailure()
-            return //false
+            return
         }
         if isStringEmpty(string: text) {
             print("Media Link empty")
             showEmptyFailure()
-//            return false
         }
         mediaURL = text
-//        return true
     }
     
     func showEmptyFailure() {

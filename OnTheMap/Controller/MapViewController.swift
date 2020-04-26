@@ -35,7 +35,6 @@ class MapViewController: UIViewController {
             let annotation = StudentAnnotation(title: "\(DataModel.studentLocations[i].firstName) \(DataModel.studentLocations[i].lastName)", mediaURL: DataModel.studentLocations[i].mediaURL, coordinate: CLLocationCoordinate2D(latitude: DataModel.studentLocations[i].latitude, longitude: DataModel.studentLocations[i].longitude))
                     annotations.append(annotation)
                 }
-        print("view map count \(annotations.count)")
         mapView.addAnnotations(annotations)
     }
 }

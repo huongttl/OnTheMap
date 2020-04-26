@@ -87,8 +87,7 @@ class Client {
         let session = URLSession.shared
         let task = session.dataTask(with: request) {
             data, response, error in
-          if error != nil { // Handle error…
-//            print(error)
+          if error != nil {
             completion(false,error)
               return
           }
@@ -108,7 +107,6 @@ class Client {
            print("The login is done successfuly!")
         } catch {
             completion(false, error)
-//            print(error.localizedDescription)
             }
         }
         task.resume()
@@ -122,8 +120,7 @@ class Client {
         let session = URLSession.shared
         let task = session.dataTask(with: request) {
             data, response, error in
-          if error != nil { // Handle error…
-//            print(error)
+          if error != nil {
               return
           }
             guard let data = data else {
@@ -131,8 +128,7 @@ class Client {
                 return
             }
           let range = 5..<data.count
-          let newData = data.subdata(in: range) /* subset response data! */
-          print(String(data: newData, encoding: .utf8)!)
+            _ = data.subdata(in: range) /* subset response data! */
             let decoder = JSONDecoder()
         do {
            let _ = try decoder.decode(AddStudentLocation.self, from: data)
@@ -177,7 +173,6 @@ class Client {
                 completion(response.results, nil)
             } else {
                 completion([], error)
-//                print(error)
             }
         }
     }
